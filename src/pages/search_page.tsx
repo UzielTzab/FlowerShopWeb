@@ -124,7 +124,7 @@ export function Search() {
             <HeaderComponent />
             <section className="py-5">
                 <header className="bg-dark py-3 text-white">
-                    <h3 className="mx-30">Resultados de la busqueda</h3>
+                    <h4 className="mx-30 ps-4">Resultados de la busqueda</h4>
                 </header>
                 <div className="container px-4 px-lg-5 mt-5">
                     <div className="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">

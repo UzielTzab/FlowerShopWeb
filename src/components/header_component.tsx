@@ -3,9 +3,9 @@ import { Link, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faShoppingCart, faSearch } from "@fortawesome/free-solid-svg-icons";
 
-import { CategorySide } from '../scripts/Category_Side';
+import { CategorySide } from '../scripts/category_side';
 import { useState } from 'react';
-import { Search } from '../pages/Search_page';
+import { Search } from '../pages/search_page';
 
 export function HeaderComponent() {
     const navigate = useNavigate();
