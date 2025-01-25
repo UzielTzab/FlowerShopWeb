@@ -5,7 +5,6 @@ import { faShoppingCart, faSearch } from "@fortawesome/free-solid-svg-icons";
 
 import { CategorySide } from '../scripts/category_side';
 import { useState } from 'react';
-import { Search } from '../pages/search_page';
 
 export function HeaderComponent() {
     const navigate = useNavigate();
