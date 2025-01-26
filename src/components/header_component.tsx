@@ -1,16 +1,20 @@
-import { useEffect } from 'react';
+import { useState , useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faShoppingCart, faSearch } from "@fortawesome/free-solid-svg-icons";
+import { faCaretRight } from '@fortawesome/free-solid-svg-icons/faCaretRight';
 
-import { CategorySide } from '../scripts/Category_Side';
-import { useState } from 'react';
-import { Search } from '../pages/Search_page';
+import { CategorySide } from '../scripts/category_side';
+import { Search } from '../pages/search_page';
 
 export function HeaderComponent() {
     const navigate = useNavigate();
 
     const [searchTerm, setSearchTerm] = useState('');
+    const [isOpen, setIsOpen] = useState(false);
+
+    const handleMouseEnter = () => setIsOpen(true);
+    const handleMouseLeave = () => setIsOpen(false);
 
     const handleSearch = () => {
         navigate('/Search', { state: { search: searchTerm } });
@@ -18,7 +22,31 @@ export function HeaderComponent() {
 
     useEffect(() => {
         CategorySide();
+
+        const categoryLinks = document.querySelectorAll<HTMLElement>('.dropdown-item');
+        if (categoryLinks.length > 0) {
+            const firstCategoryLink = categoryLinks[0];
+            firstCategoryLink.dispatchEvent(new MouseEvent('mouseover'));
+        }
     }, []);
+
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            const target = event.target as HTMLElement | null;
+    
+            if (target && target.closest('.dropdown') === null) {
+                setIsOpen(false);
+            }
+        };
+    
+        document.addEventListener('click', handleClickOutside);
+    
+        return () => {
+            document.removeEventListener('click', handleClickOutside);
+        };
+    }, []);
+    
+
     const [cartCount, setCartCount] = useState(0);
 
     useEffect(() => {
@@ -36,7 +64,7 @@ export function HeaderComponent() {
                     <span className="navbar-toggler-icon"></span></button>
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul className="navbar-nav me-auto mb-6 mb-lg-0 ms-lg-4">
-                        <li className="nav-item dropdown">
+                        <li className="nav-item dropdown" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
                             <div className="collapse navbar-collapse" id="navbarNav">
                                 <ul className="navbar-nav">
                                     <li className="nav-item dropdown">
@@ -46,24 +74,34 @@ export function HeaderComponent() {
                                             id="megaMenu"
                                             role="button"
                                             data-bs-toggle="dropdown"
-                                            aria-expanded="false"
+                                            aria-expanded={isOpen ? 'true' : 'false'}
                                         >
                                             Categorías
                                         </a>
-                                        <div className="dropdown-menu" aria-labelledby="megaMenu" style={{ minWidth: '600px' }}>
+                                        <div className={`dropdown-menu ${isOpen ? 'show' : ''}`} aria-labelledby="megaMenu" style={{ minWidth: '600px' }}>
                                             <div className="row g-3">
-                                                <div className="col-6">
+                                                <div className="col-6 border-end">
                                                     <a className="dropdown-header">Categorías</a>
-                                                    <a className="dropdown-item" href="#" data-target="arreglos">Arreglos Florales</a>
-                                                    <a className="dropdown-item" href="#" data-target="flores">Tipos de Flores</a>
-                                                    <a className="dropdown-item" href="#" data-target="eventos">Eventos y Ocasiones</a>
-                                                    <a className="dropdown-item" href="#" data-target="plantas">Plantas y Jardinería</a>
-                                                    <a className="dropdown-item" href="#" data-target="regalos">Regalos y Complementos</a>
-                                                    <a className="dropdown-item" href="#" data-target="decoración">Decoración Floral</a>
-                                                    <a className="dropdown-item" href="#" data-target="florerías">Florerías</a>
-                                                    <a className="dropdown-item" href="#" data-target="ofertas">Ofertas y Descuentos</a>
-                                                    <a className="dropdown-item" href="#" data-target="servicios">Servicios Especiales</a>
-                                                    <a className="dropdown-item" href="#" data-target="ecoamigables">Productos Eco-amigables</a>
+                                                    <a className="dropdown-item d-flex justify-content-between align-items-center" href="#" data-target="arreglos">
+                                                        Arreglos Florales<FontAwesomeIcon icon={faCaretRight} size="2xs"/></a>
+                                                    <a className="dropdown-item d-flex justify-content-between align-items-center" href="#" data-target="flores">
+                                                        Tipos de Flores<FontAwesomeIcon icon={faCaretRight} size="2xs"/></a>
+                                                    <a className="dropdown-item d-flex justify-content-between align-items-center" href="#" data-target="eventos">
+                                                        Eventos y Ocasiones<FontAwesomeIcon icon={faCaretRight} size="2xs"/></a>
+                                                    <a className="dropdown-item d-flex justify-content-between align-items-center" href="#" data-target="plantas">
+                                                        Plantas y Jardinería<FontAwesomeIcon icon={faCaretRight} size="2xs"/></a>
+                                                    <a className="dropdown-item d-flex justify-content-between align-items-center" href="#" data-target="regalos">
+                                                        Regalos y Complementos<FontAwesomeIcon icon={faCaretRight} size="2xs"/></a>
+                                                    <a className="dropdown-item d-flex justify-content-between align-items-center" href="#" data-target="decoración">
+                                                        Decoración Floral<FontAwesomeIcon icon={faCaretRight} size="2xs"/></a>
+                                                    <a className="dropdown-item d-flex justify-content-between align-items-center" href="#" data-target="florerías">
+                                                        Florerías<FontAwesomeIcon icon={faCaretRight} size="2xs"/></a>
+                                                    <a className="dropdown-item d-flex justify-content-between align-items-center" href="#" data-target="ofertas">
+                                                        Ofertas y Descuentos<FontAwesomeIcon icon={faCaretRight} size="2xs"/></a>
+                                                    <a className="dropdown-item d-flex justify-content-between align-items-center" href="#" data-target="servicios">
+                                                        Servicios Especiales<FontAwesomeIcon icon={faCaretRight} size="2xs"/></a>
+                                                    <a className="dropdown-item d-flex justify-content-between align-items-center" href="#" data-target="ecoamigables">
+                                                        Productos Eco-amigables<FontAwesomeIcon icon={faCaretRight} size="2xs"/></a>
                                                 </div>
                                                 <div className="col-6">
                                                     <div id="category-content-arreglos" className="category-content">

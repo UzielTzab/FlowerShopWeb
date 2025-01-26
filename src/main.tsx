@@ -5,10 +5,10 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 import './index.css';
-import { Home } from './pages/Home';
-import { Product_presentation } from "./pages/Product_presentation";
-import { Cart } from "./pages/Cart_page";
-import { Search } from "./pages/Search_page";
+import { Home } from './pages/home';
+import { Product_presentation } from "./pages/product_presentation";
+import { Cart } from "./pages/cart_page";
+import { Search } from "./pages/search_page";
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
