@@ -5,10 +5,11 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 import './index.css';
-import { Home } from './pages/Home';
-import { Product_presentation } from "./pages/Product_presentation";
-import { Cart } from "./pages/Cart_page";
-import { Search } from "./pages/Search_page";
+import { Home } from './pages/home';
+import { Product_presentation } from "./pages/product_presentation";
+import { Cart } from "./pages/cart_page";
+import { Search } from "./pages/search_page";
+import { PayPage } from "./pages/pay_page";
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
@@ -27,7 +28,7 @@ function RoutesComponent() {
           <motion.div
             initial={{ opacity: 0, x: 300 }} // Comienza desde la derecha
             animate={{ opacity: 1, x: 0 }} // Termina en su posición original
-            exit={{ opacity: 0, x: -300 }} // Sale por la izquierda
+            exit={{ opacity: 0, x: 300 }} // Sale por la izquierda
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
           >
             <Home />
@@ -62,6 +63,16 @@ function RoutesComponent() {
             <Search />
           </motion.div>
         } />
+        <Route path="/PayPage" element={
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <PayPage />
+          </motion.div>
+        } />
+
       </Routes>
     </AnimatePresence>
   );

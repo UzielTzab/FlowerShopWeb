@@ -1,13 +1,15 @@
 import { FooterComponent } from "../components/footer_component";
 import { HeaderComponent } from "../components/header_component";
 import { MainComponent } from "../components/main_component";
+import { useState } from "react";
 
 export function Home() {
+    const [searchTerm, setSearchTerm] = useState('');
     return (
-        <div>
-            <HeaderComponent />
-            <MainComponent />
+        <>
+            <HeaderComponent setSearchTerm={setSearchTerm} />
+            <MainComponent searchTerm={searchTerm} />
             <FooterComponent />
-        </div>
+        </>
     );
 }

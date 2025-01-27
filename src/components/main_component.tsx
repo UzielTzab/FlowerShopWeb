@@ -4,13 +4,19 @@ import carrouselImage3 from "../assets/carrousel_image3.jpg";
 import { ProductCard } from "./product_card_component";
 import { useState } from "react";
 import { useEffect } from "react";
-import { ProductPresentationProps } from "../interfaces/product_presentation_props";
 import { ProductCardProps } from "../interfaces/product_card_props";
+import { Modal, Spinner } from "react-bootstrap";
+import { ExclamationCircle, CheckCircle } from 'react-bootstrap-icons';
+import { faSpa } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-
-
-export function MainComponent() {
+export function MainComponent({ searchTerm }: { searchTerm: string }) {
     const [products, setProducts] = useState<ProductCardProps[]>([]);
+    const [filteredProducts, setFilteredProducts] = useState<ProductCardProps[]>([]);
+    const [loading, setLoading] = useState(false);
+    const [showSuccessModal, setShowSuccessModal] = useState(false);
+    const [showErrorModal, setShowErrorModal] = useState(false);
+    const [isFiltering, setIsFiltering] = useState(false);
     const defaultProducts = [
         {
             name: "Salvage y sorprendente",
@@ -107,72 +113,121 @@ export function MainComponent() {
         },
 
     ];
+
+    // Cargar productos iniciales
     useEffect(() => {
-        // Recupera los productos del localStorage
         const storedProducts = localStorage.getItem("product_on_stock");
         if (storedProducts) {
-            const allProducts = JSON.parse(storedProducts);
-            setProducts(allProducts);
-        }
-        else {
+            setProducts(JSON.parse(storedProducts));
+        } else {
             setProducts(defaultProducts);
         }
     }, []);
+
+    useEffect(() => {
+        const trimmedSearchTerm = searchTerm.trim();
+
+        if (trimmedSearchTerm === "") {
+            setIsFiltering(false);
+            setFilteredProducts(products);
+        } else {
+            setIsFiltering(true);
+            setLoading(true);
+            const filtered = products.filter((product) =>
+                product.name.toLowerCase().includes(trimmedSearchTerm.toLowerCase())
+            );
+            setFilteredProducts(filtered);
+            setLoading(false);
+
+            if (filtered.length > 0) {
+                setShowSuccessModal(true);
+                setTimeout(() => setShowSuccessModal(false), 1000);
+            } else {
+                setShowErrorModal(true);
+                setTimeout(() => setShowErrorModal(false), 3000);
+            }
+        }
+    }, [searchTerm, products]);
+
     return (
         <>
             <header className="bg-dark">
-                <div id="carouselExampleCaptions" className="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
-                    <div className="carousel-indicators">
-                        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" className="active" aria-current="true" aria-label="Slide 1"></button>
-                        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                {!isFiltering && (
+                    <div id="carouselExampleCaptions" className="carousel slide">
+                        <div className="carousel-inner">
+                            <div className="carousel-item active">
+                                <img src={carrouselImage1} className="carousel-image w-100" alt="Flores 1"></img>
+                                <div className="carousel-caption d-none d-md-block bg-dark rounded-circle">
+                                    <h3 className="carousel-text">El lenguaje de las flores, en cada detalle</h3>
+                                </div>
+                            </div>
+                            <div className="carousel-item">
+                                <img src={carrouselImage2} className="carousel-image w-100" alt="Flores 2"></img>
+                                <div className="carousel-caption d-none d-md-block bg-dark rounded-circle">
+                                    <h3 className="carousel-text">Flores que dicen lo que las palabras no pueden</h3>
+                                </div>
+                            </div>
+                            <div className="carousel-item">
+                                <img src={carrouselImage3} className="carousel-image w-100" alt="Flores 3"></img>
+                                <div className="carousel-caption d-none d-md-block bg-dark rounded-circle">
+                                    <h3 className="carousel-text">Más que flores, son momentos inolvidables</h3>
+                                </div>
+                            </div>
+                        </div>
+                        <button className="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+                            <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span className="visually-hidden">Previous</span>
+                        </button>
+                        <button className="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+                            <span className="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span className="visually-hidden">Next</span>
+                        </button>
                     </div>
-                    <div className="carousel-inner">
-                        <div className="carousel-item active">
-                            <img src={carrouselImage1} className="carousel-image w-100" alt="No funciona"></img>
-                            <div className="carousel-caption d-none d-md-block bg-dark">
-                                <h3>Flores que dicen lo que las palabras no pueden</h3>
-                            </div>
-                        </div>
-                        <div className="carousel-item">
-                            <img src={carrouselImage2} className="carousel-image w-100" alt="No funciona"></img>
-                            <div className="carousel-caption d-none d-md-block bg-dark">
-                                <h3>Flores que dicen lo que las palabras no pueden</h3>
-                            </div>
-                        </div>
-                        <div className="carousel-item">
-                            <img src={carrouselImage3} className="carousel-image w-100" alt="No funciona"></img>
-                            <div className="carousel-caption d-none d-md-block bg-dark">
-                                <h3>Flores que dicen lo que las palabras no pueden</h3>
-                            </div>
-                        </div>
-                    </div>
-                    <button className="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
-                        <span className="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span className="visually-hidden">Previous</span>
-                    </button>
-                    <button className="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
-                        <span className="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span className="visually-hidden">Next</span>
-                    </button>
-                </div>
+                )}
+                {isFiltering &&
+                    (
+                        <header className="bg-dark py-3 text-white">
+                            <h4 className="mx-30 ps-4">Resultados de la busqueda "{searchTerm}"
+                                <FontAwesomeIcon icon={faSpa} size="1x" color="white" />
+                            </h4>
+                        </header>
+                    )}
             </header >
             <section className="py-5">
                 <div className="container px-4 px-lg-5 mt-5">
                     <div className="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-                        {products.map((product, index) => (
-                            <ProductCard
-                                key={index}
-                                name={product.name}
-                                price={product.price}
-                                discount={product.discount}
-                                image={product.image}
-                            />
+                        {filteredProducts.map((product, index) => (
+                            <ProductCard key={index} {...product} />
                         ))}
 
                     </div>
                 </div>
             </section>
+            <Modal show={loading} onHide={() => setLoading(false)} backdrop="static">
+                <Modal.Body className="d-flex justify-content-center">
+                    <Spinner />
+                </Modal.Body>
+            </Modal>
+            <Modal show={showSuccessModal} onHide={() => setShowSuccessModal(false)}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Resultado de la busqueda</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <CheckCircle color="green" size={36} /> {/* Muestra un icono de check verde */}
+                    Se encontrarón {filteredProducts.length} resultados
+                </Modal.Body>
+            </Modal>
+            <Modal show={showErrorModal} onHide={() => setShowErrorModal(false)}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Error</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <ExclamationCircle color="dark" size={36} /> {/* Muestra un icono de check verde */}
+                    No se encontraron resultados.
+                </Modal.Body>
+            </Modal>
+
+
         </>
     );
 }

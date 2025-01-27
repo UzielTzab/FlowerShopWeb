@@ -1,34 +1,44 @@
-import { useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faShoppingCart, faSearch } from "@fortawesome/free-solid-svg-icons";
 
 import { CategorySide } from '../scripts/category_side';
-import { useState } from 'react';
 
-export function HeaderComponent() {
-    const navigate = useNavigate();
-
-    const [searchTerm, setSearchTerm] = useState('');
+export function HeaderComponent({ setSearchTerm }: { setSearchTerm?: (search: string) => void }) {
+    const [searchTerm, setLocalSearchTerm] = useState('');
+    const [cartCount, setCartCount] = useState(0);
 
     const handleSearch = () => {
-        navigate('/Search', { state: { search: searchTerm } });
+        setSearchTerm?.(searchTerm);
     };
 
     useEffect(() => {
         CategorySide();
     }, []);
-    const [cartCount, setCartCount] = useState(0);
 
     useEffect(() => {
-        const cart = JSON.parse(localStorage.getItem('cart') || '[]');
-        setCartCount(cart.length);
+        const updateCartCount = () => {
+            const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+            setCartCount(cart.length);
+        };
+
+        // Actualiza el contador del carrito al montar el componente
+        updateCartCount();
+
+        // Escucha el evento 'cartUpdated' para detectar cambios en el carrito
+        window.addEventListener('cartUpdated', updateCartCount);
+
+        // Limpia el evento al desmontar el componente
+        return () => {
+            window.removeEventListener('cartUpdated', updateCartCount);
+        };
     }, []);
 
     return (
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
             <div className="container-fluid d-flex align-items-center">
-                <a className="navbar-brand" href="/">Detalles Florales</a>
+                <a className="navbar-brand navbar-logo" href="/">Detalles Florales</a>
                 <button className="navbar-toggler" type="button" data-bs-toggle="offcanvas"
                     data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions"
                     aria-expanded="false" aria-label="Toggle navigation">
@@ -151,7 +161,7 @@ export function HeaderComponent() {
                                     placeholder="Buscar"
                                     aria-label="Search"
                                     value={searchTerm}
-                                    onChange={(e) => setSearchTerm(e.target.value)}
+                                    onChange={(e) => setLocalSearchTerm(e.target.value)}
                                 />
                                 <button type="submit" className="btn btn-outline-dark">
                                     <FontAwesomeIcon icon={faSearch} />

@@ -63,6 +63,16 @@ button:focus-visible {
   }
 }
 
+/* .navbar-logo{
+  font-family: ;
+} */
+
+/* 'Times New Roman', Times, serif; */
+/* Georgia, 'Times New Roman', Times, serif */
+/* 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; */
+/* 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; */
+/* 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; */
+
 .category-content {
   display: none;
 }
@@ -74,4 +84,24 @@ button:focus-visible {
 .carousel-image{
   height: 600px !important;
   object-fit: cover;
+}
+
+.carousel-caption {
+  right: -3%;
+  bottom: -2.7rem;
+  left: -3%;
+  padding-top: 1.25rem ;
+  padding-bottom: 3.25rem ;
+}
+
+/* .carousel-text{
+  font-family: ;
+} */
+
+/* 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; */
+/* 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; */
+
+.shoppingCart{
+  width: 15px !important; 
+  height: 15px !important;
 }
