@@ -54,7 +54,7 @@ export function PayPage() {
                             ))}
                             <li className="list-group-item d-flex justify-content-end">
                                 <span className="pe-4">Total:</span>
-                                <span className="fw-bolder">${totalQuantity + 20}.00</span>
+                                <span className="fw-bolder">${totalQuantity.toFixed(2)}</span>
                                 <span className="ps-1">(MXN)</span>
                             </li>
                         </ul>

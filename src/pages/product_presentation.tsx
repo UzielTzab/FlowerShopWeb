@@ -6,12 +6,12 @@ import { SidebarCart } from '../components/sidebar_cart';
 
 export function Product_presentation() {
     const location = useLocation();
-    const { name, price, discount, image } = location.state;
+    const { name, price, discount, image, description } = location.state;
 
     return (
         <div>
             <HeaderComponent />
-            <ProductViewComponent name={name} price={price} discount={discount} image={image} quantity={0} />
+            <ProductViewComponent name={name} price={price} discount={discount} image={image} quantity={0} description={description} />
             <SidebarCart />
             <FooterComponent />
 

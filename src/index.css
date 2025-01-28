@@ -63,15 +63,14 @@ button:focus-visible {
   }
 }
 
-/* .navbar-logo{
-  font-family: ;
-} */
+.navbar-logo{
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
 
-/* 'Times New Roman', Times, serif; */
-/* Georgia, 'Times New Roman', Times, serif */
-/* 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; */
-/* 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; */
-/* 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; */
+.navbar-toggler{
+  color: transparent;
+  border: none;
+}
 
 .category-content {
   display: none;
@@ -94,12 +93,63 @@ button:focus-visible {
   padding-bottom: 3.25rem ;
 }
 
-/* .carousel-text{
-  font-family: ;
-} */
+.carousel-text{
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
 
-/* 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; */
-/* 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; */
+.scroll-hidden::-webkit-scrollbar {
+  display: none !important;
+}
+
+.offcanvas-item{
+  font-size: 14px !important;
+  transition: color 0.3s ease, border-bottom 0.3s ease !important;
+}
+
+.offcanvas-item.active{
+  color: #000 !important;
+  border-bottom: 4px solid #000 !important;
+  transition: color 0.3s ease, border-bottom 0.3s ease !important;
+}
+
+.offcanvas-item:focus{
+  color: #000 !important;
+  border-bottom: 4px solid #000 !important;
+  transition: color 0.3s ease, border-bottom 0.3s ease !important;
+}
+
+@media (max-width: 992px) {
+  .responsive-search {
+    width: 100%;
+    max-width: 230px !important;
+  }
+}
+
+@media (max-width: 461px) {
+  .responsive-search {
+    width: 100%;
+    max-width: 115px !important; 
+  }
+}
+
+@media (max-width: 347px) {
+  .responsive-search {
+    width: 100%;
+    max-width: 68px !important; 
+  }
+}
+
+@media (max-width: 992px) {
+  .btn {
+    font-size: 14px;
+    padding: 0.47rem 0.3rem;
+  }
+}
+
+.badge {
+  font-size: 13px;
+  padding: 0.2rem 0.2rem;
+}
 
 .shoppingCart{
   width: 15px !important; 

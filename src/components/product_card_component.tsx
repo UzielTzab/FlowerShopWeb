@@ -1,11 +1,11 @@
 import { useNavigate } from 'react-router-dom';
-import { ProductCardProps } from "../interfaces/product_card_props";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShoppingCart, faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import { useState } from 'react';
 import { Modal, Spinner } from 'react-bootstrap';
+import { ProductInterface } from '../models/interfaces/product_interface';
 
-export function ProductCard({ name, price, image, discount }: ProductCardProps) {
+export function ProductCard({ id, name, price, image, discount, description }: ProductInterface) {
     const navigate = useNavigate();
     const [quantity, setQuantity] = useState(1);
     const [showBanner, setShowBanner] = useState(false);
@@ -13,12 +13,12 @@ export function ProductCard({ name, price, image, discount }: ProductCardProps) 
     const [isSpinner, setIsSpinner] = useState(false);
 
     const handleClick = () => {
-        navigate('/ProductPresentation', { state: { name, price, discount, image } });
+        navigate('/ProductPresentation', { state: { name, price, discount, image, description } });
     };
 
     const HandleToCart = () => {
         setIsButtonHandler(!isButtonHandler);
-        const product = { name, price, image, discount, quantity };
+        const product = { name, price, image, discount, quantity, description };
         const cart = JSON.parse(localStorage.getItem('cart') || '[]');
         const existingProductIndex = cart.findIndex((item: any) => item.name === name);
 
@@ -53,7 +53,7 @@ export function ProductCard({ name, price, image, discount }: ProductCardProps) 
                 </Modal>
                 <button onClick={HandleToCart} className="btn rounded-circle position-absolute top-25 start-25 m-3 " style={{ zIndex: 1, color: 'black', backgroundColor: 'pink' }}>
                     {isButtonHandler ? (
-                        isSpinner ? <Spinner style={{ width: '1rem', height: '1.5rem' }} animation="border" role="status">
+                        isSpinner ? <Spinner style={{ width: '1rem', height: '1rem' }} animation="border" role="status">
                             <span className="visually-hidden">Loading...</span>
                         </Spinner> : <FontAwesomeIcon icon={faShoppingCart} size="1x" />
                     ) : (

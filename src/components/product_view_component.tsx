@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ProductPresentationProps } from "../interfaces/product_presentation_props";
 import { Modal, Spinner } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
+import { ProductInterface } from '../models/interfaces/product_interface';
 
-export function ProductViewComponent({ name, price, image, discount }: ProductPresentationProps) {
+export function ProductViewComponent({ name, price, image, discount, description }: ProductInterface) {
     const [quantity, setQuantity] = useState(1);
     const [showBanner, setShowBanner] = useState(false);
     const navigate = useNavigate();
@@ -46,9 +46,9 @@ export function ProductViewComponent({ name, price, image, discount }: ProductPr
                         <h1 className="display-5 fw-bolder">{name}</h1>
                         <div className="fs-5 mb-5">
                             <span className="text-decoration-line-through">${price}</span>
-                            <span>${discount}</span>
+                            <span>${price - discount!}</span>
                         </div>
-                        <p className="lead">Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium at dolorem quidem modi. Nam sequi consequatur obcaecati excepturi alias magni, accusamus eius blanditiis delectus ipsam minima ea iste laborum vero?</p>
+                        <p className="lead">{description}</p>
                         <div className="d-flex">
                             <input
                                 className="form-control text-center me-3"

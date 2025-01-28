@@ -21,6 +21,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
 
 function RoutesComponent() {
   const location = useLocation();
+
   return (
     <AnimatePresence mode="wait">
       <Routes location={location} key={location.key}>

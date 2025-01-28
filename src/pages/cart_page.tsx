@@ -165,10 +165,10 @@ export function Cart() {
                                         {/* Left Section */}
                                         <div className="col-lg-7">
                                             <h5 className="mb-3">
-                                                <a href="#!" className="text-body">
+                                                <span className="text-body">
                                                     <i className="fas fa-long-arrow-alt-left me-2"></i>
                                                     Seguir comprando
-                                                </a>
+                                                </span>
                                             </h5>
                                             <hr />
                                             <div className="d-flex justify-content-between align-items-center mb-4">
@@ -179,9 +179,9 @@ export function Cart() {
                                                 <div>
                                                     <p className="mb-0">
                                                         <span className="text-muted">Ordenar por:</span>{" "}
-                                                        <a href="#!" className="text-body">
+                                                        <span className="text-bod fw-semibold">
                                                             precio <i className="fas fa-angle-down mt-1"></i>
-                                                        </a>
+                                                        </span>
                                                     </p>
                                                 </div>
                                             </div>
@@ -202,7 +202,7 @@ export function Cart() {
                                                                 <div className="ms-3">
                                                                     <h5>{item.name}</h5>
                                                                     <p className="small mb-0">
-                                                                        Discounted Price: ${item.discount}
+                                                                        Precio con descuento: ${item.discount}
                                                                     </p>
                                                                 </div>
                                                             </div>
@@ -213,10 +213,9 @@ export function Cart() {
                                                                     </h5>
                                                                 </div>
                                                                 <div style={{ width: "80px" }}>
-                                                                    <h5 className="mb-0">${item.price}</h5>
+                                                                    <h5 className="mb-0">${item.price.toFixed(2)}</h5>
                                                                 </div>
                                                                 <a
-                                                                    href="#!"
                                                                     onClick={() =>
                                                                         handleRemoveFromCart(item.name)
                                                                     }
@@ -277,20 +276,7 @@ export function Cart() {
                                                         <div className="row mb-4">
                                                             <div className="col-md-6">
                                                                 <div className="form-outline form-white">
-                                                                    {/* <input
-                                                                        type="text"
-                                                                        id="typeExp"
-                                                                        className="form-control form-control-lg"
-                                                                        placeholder="MM/YYYY"
-                                                                        value={expirationDate}
-                                                                        onChange={(e) => handleExpirationDateChange(e.target.value)}
-                                                                    />
-                                                                    <label className="form-label" htmlFor="typeExp">
-                                                                        Fecha de expiración
-                                                                    </label>
-                                                                    {expirationError && (
-                                                                        <small className="text-danger">Por favor, ingresa una fecha válida en formato MM/YYYY.</small>
-                                                                    )} */}
+
                                                                 </div>
                                                             </div>
 
@@ -300,7 +286,7 @@ export function Cart() {
                                                                         type="password"
                                                                         id="typeCvv"
                                                                         className="form-control form-control-lg fs-6"
-                                                                        placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;"
+                                                                        placeholder="&#9679;&#9679;&#9679;"
                                                                     />
                                                                     <label
                                                                         className="form-label"
@@ -315,7 +301,7 @@ export function Cart() {
                                                     <hr className="my-4" />
                                                     <div className="d-flex justify-content-between">
                                                         <p className="mb-2">Subtotal</p>
-                                                        <p className="mb-2">${totalQuantity}.00</p>
+                                                        <p className="mb-2">${totalQuantity.toFixed(2)}</p>
                                                     </div>
                                                     <div className="d-flex justify-content-between">
                                                         <p className="mb-2">Costo de Envío</p>
@@ -327,7 +313,7 @@ export function Cart() {
                                                     </div>
                                                     <div className="d-flex justify-content-between mb-4">
                                                         <p className="mb-2">Total (IVA incl.)</p>
-                                                        <p className="mb-2">${totalQuantity + 20}.00</p>
+                                                        <p className="mb-2">${totalQuantity.toFixed(2)}</p>
                                                     </div>
 
                                                     <div className="d-flex justify-content-end">
