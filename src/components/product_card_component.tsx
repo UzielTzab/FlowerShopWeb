@@ -5,9 +5,9 @@ import { useState } from 'react';
 import { Modal, Spinner } from 'react-bootstrap';
 import { ProductInterface } from '../models/interfaces/product_interface';
 
-export function ProductCard({ id, name, price, image, discount, description }: ProductInterface) {
+export function ProductCard({ name, price, image, discount, description }: ProductInterface) {
     const navigate = useNavigate();
-    const [quantity, setQuantity] = useState(1);
+    const [quantity] = useState(1);
     const [showBanner, setShowBanner] = useState(false);
     const [isButtonHandler, setIsButtonHandler] = useState(false);
     const [isSpinner, setIsSpinner] = useState(false);

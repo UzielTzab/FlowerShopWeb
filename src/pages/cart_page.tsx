@@ -22,7 +22,7 @@ interface CartItem {
 export function Cart() {
     const navigate = useNavigate();
     const [cartItems, setCartItems] = useState<CartItem[]>([]);
-    const [boughtItems, setBoughtItems] = useState<CartItem[]>([]);
+    // const [boughtItems, setBoughtItems] = useState<CartItem[]>([]);
     const [totalQuantity, setTotalQuantity] = useState<number>(0);
     const [totalDiscount, setTotalDiscount] = useState<number>(0);
     const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -176,7 +176,7 @@ export function Cart() {
             setIsLoading(false);
             setTotalQuantity(0);
             setTotalDiscount(0);
-            setBoughtItems(cartItems);
+            // setBoughtItems(cartItems);
             localStorage.setItem("boughtItems", JSON.stringify(cartItems));
             localStorage.removeItem("cart");
             setTimeout(() => {

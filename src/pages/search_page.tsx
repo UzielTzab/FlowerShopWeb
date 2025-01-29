@@ -2,16 +2,16 @@ import { FooterComponent } from "../components/footer_component";
 import { HeaderComponent } from "../components/header_component";
 import { useEffect, useState } from "react";
 import { ProductCard } from "../components/product_card_component"; // Asegúrate de importar este componente si lo usas
-import { ProductCardProps } from "../interfaces/product_card_props";
 import { useLocation } from "react-router-dom";
 import { Modal, Spinner, } from "react-bootstrap";
 import { ExclamationCircle, CheckCircle } from 'react-bootstrap-icons';
+import { ProductInterface } from "../models/interfaces/product_interface";
 
 export function Search() {
     const location = useLocation();
     const search = location.state?.search || '';
 
-    const [filteredProducts, setProducts] = useState<ProductCardProps[]>([]);
+    const [filteredProducts, setProducts] = useState<ProductInterface[]>([]);
     const [loading, setLoading] = useState(false);
     const [showSuccessModal, setShowSuccessModal] = useState(false);
     const [showErrorModal, setShowErrorModal] = useState(false);
@@ -23,8 +23,8 @@ export function Search() {
         if (storedProducts) {
             setLoading(false);
             setShowSuccessModal(true);
-            const allProducts: ProductCardProps[] = JSON.parse(storedProducts);
-            const filteredProducts = allProducts.filter((product: ProductCardProps) =>
+            const allProducts: ProductInterface[] = JSON.parse(storedProducts);
+            const filteredProducts = allProducts.filter((product: ProductInterface) =>
                 product.name.toLowerCase().includes(search.toLowerCase())
             );
             setProducts(filteredProducts);
@@ -50,8 +50,10 @@ export function Search() {
                                 key={index}
                                 name={product.name}
                                 price={product.price}
+                                quantity={product.quantity}
                                 discount={product.discount}
                                 image={product.image}
+                                description={product.description}
                             />
                         ))}
                     </div>
