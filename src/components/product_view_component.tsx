@@ -32,6 +32,12 @@ export function ProductViewComponent({ name, price, image, discount, description
     return (
         <section className="py-5">
             <div className="container px-4 px-lg-5 my-5">
+                <nav aria-label="breadcrumb">
+                    <ol className="breadcrumb">
+                        <li className="breadcrumb-item"><a href="/">Principal</a></li>
+                        <li className="breadcrumb-item active" aria-current="page">Productos</li>
+                    </ol>
+                </nav>
                 <Modal show={showBanner} onHide={() => setShowBanner(false)} centered>
                     <Modal.Body className="text-center">
 

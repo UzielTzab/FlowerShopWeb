@@ -30,6 +30,13 @@ export function PayPage() {
         <>
             <HeaderComponent />
             <div className="container mt-5">
+                <nav aria-label="breadcrumb">
+                    <ol className="breadcrumb">
+                        <li className="breadcrumb-item"><a href="/">Principal</a></li>
+                        <li className="breadcrumb-item"><a href="/Cart">Carrito</a></li>
+                        <li className="breadcrumb-item active" aria-current="page">Pago</li>
+                    </ol>
+                </nav>
                 <div className="card">
                     <div className="card-header bg-dark  text-white">
                         <h4>Detalles de la compra</h4>

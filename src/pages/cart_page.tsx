@@ -30,6 +30,19 @@ export function Cart() {
     const [showErrorModal, setShowErrorModal] = useState<boolean>(false);
     const [textTitleForModal, setTextTitleForModal] = useState<string>("Procesando la transacción");
     const [textForModal, setTextForModal] = useState<string>("¡Serás redirigido en breve al detalle de pago!");
+    const [formData, setFormData] = useState({
+        fullName: "",
+        cardNumber: "",
+        expiryDate: "",
+        cvv: "",
+    });
+
+    const [errors, setErrors] = useState({
+        fullName: "",
+        cardNumber: "",
+        expiryDate: "",
+        cvv: "",
+    });
 
     useEffect(() => {
         const cart = JSON.parse(localStorage.getItem("cart") || "[]");
@@ -70,6 +83,85 @@ export function Cart() {
             setTextForModal("El producto ha sido eliminado del carrito");
             setShowModal(false);
         }, 2000);
+    };
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { id, value } = e.target;
+
+        let formattedValue = value;
+
+        switch (id) {
+            case "fullName":
+                formattedValue = value.replace(/[^a-zA-Z\s]/g, ""); // Solo letras y espacios
+                break;
+            case "cardNumber":
+                formattedValue = value.replace(/[^0-9]/g, ""); // Solo números
+                break;
+            case "expiryDate":
+                formattedValue = value
+                    .replace(/[^0-9]/g, "") // Solo números
+                    .slice(0, 6); // Limita el input a MMYYYY
+
+                // Formatear mientras escribe
+                if (formattedValue.length >= 3) {
+                    formattedValue = `${formattedValue.slice(0, 2)}/${formattedValue.slice(2)}`;
+                }
+                break;
+            case "cvv":
+                formattedValue = value.replace(/[^0-9]/g, ""); // Solo números
+                break;
+            default:
+                break;
+        }
+
+        setFormData({ ...formData, [id]: formattedValue });
+
+        // Validaciones
+        switch (id) {
+            case "fullName":
+                setErrors({
+                    ...errors,
+                    fullName: /^[a-zA-Z\s]+$/.test(formattedValue)
+                        ? ""
+                        : "El nombre solo debe contener letras y espacios.",
+                });
+                break;
+            case "cardNumber":
+                setErrors({
+                    ...errors,
+                    cardNumber: /^\d{16}$/.test(formattedValue)
+                        ? ""
+                        : "El número de tarjeta debe tener 16 dígitos.",
+                });
+                break;
+            case "expiryDate":
+                setErrors({
+                    ...errors,
+                    expiryDate: /^(0[1-9]|1[0-2])\/\d{4}$/.test(formattedValue)
+                        ? ""
+                        : "La fecha debe estar en formato MM/AAAA.",
+                });
+                break;
+            case "cvv":
+                setErrors({
+                    ...errors,
+                    cvv: /^\d{3,4}$/.test(formattedValue)
+                        ? ""
+                        : "El CVV debe tener 3 o 4 dígitos.",
+                });
+                break;
+            default:
+                break;
+        }
+    };
+
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!Object.values(errors).some((error) => error !== "")) {
+            console.log("Formulario enviado:", formData);
+        } else {
+            alert("Corrige los errores antes de enviar el formulario.");
+        }
     };
 
     const handleCheckout = () => {
@@ -157,6 +249,13 @@ export function Cart() {
 
             <section className="h-100 h-custom bg-gray-200">
                 <div className="container py-5 h-100">
+                    <nav aria-label="breadcrumb">
+                        <ol className="breadcrumb">
+                            <li className="breadcrumb-item"><a href="/">Principal</a></li>
+                            {/* <li className="breadcrumb-item"><a href="/ProductPresentation">Producto</a></li> */}
+                            <li className="breadcrumb-item active" aria-current="page">Carrito</li>
+                        </ol>
+                    </nav>
                     <div className="row d-flex justify-content-center align-items-center h-100">
                         <div className="col">
                             <div className="card">
@@ -249,53 +348,82 @@ export function Cart() {
                                                     <a href="#!" className="text-white me-2">
                                                         <FontAwesomeIcon icon={faCcPaypal} size="2x" />
                                                     </a>
-
-                                                    <form className="mt-4">
+                                                    <form onSubmit={handleSubmit} className="mt-4">
+                                                        {/* Nombre completo */}
                                                         <div className="form-outline form-white mb-4">
                                                             <input
                                                                 type="text"
-                                                                id="typeName"
-                                                                className="form-control form-control-lg fs-6"
+                                                                id="fullName"
+                                                                value={formData.fullName}
+                                                                onChange={handleChange}
+                                                                className={`form-control form-control-lg fs-6 ${errors.fullName ? "is-invalid" : ""
+                                                                    }`}
                                                                 placeholder="Diego Alejandro Martínez López"
                                                             />
-                                                            <label className="form-label" htmlFor="typeName">
+                                                            <label className="form-label" htmlFor="fullName">
                                                                 Nombre completo
                                                             </label>
+                                                            {errors.fullName && (
+                                                                <small className="text-danger">{errors.fullName}</small>
+                                                            )}
                                                         </div>
+
+                                                        {/* Número de tarjeta */}
                                                         <div className="form-outline form-white mb-4">
                                                             <input
                                                                 type="text"
-                                                                id="typeText"
-                                                                className="form-control form-control-lg fs-6"
-                                                                placeholder="1234-5678-9012-3457"
+                                                                id="cardNumber"
+                                                                value={formData.cardNumber}
+                                                                onChange={handleChange}
+                                                                className={`form-control form-control-lg fs-6 ${errors.cardNumber ? "is-invalid" : ""
+                                                                    }`}
+                                                                placeholder="1234567890123456"
+                                                                maxLength={16}
                                                             />
-                                                            <label className="form-label" htmlFor="typeText">
-                                                                Numero de la tarjeta
+                                                            <label className="form-label" htmlFor="cardNumber">
+                                                                Número de la tarjeta
                                                             </label>
+                                                            {errors.cardNumber && (
+                                                                <small className="text-danger">{errors.cardNumber}</small>
+                                                            )}
                                                         </div>
-                                                        <div className="row mb-4">
-                                                            <div className="col-md-6">
-                                                                <div className="form-outline form-white">
 
-                                                                </div>
-                                                            </div>
+                                                        {/* Fecha de expiración */}
+                                                        <div className="form-outline form-white mb-4">
+                                                            <input
+                                                                type="text"
+                                                                id="expiryDate"
+                                                                value={formData.expiryDate}
+                                                                onChange={handleChange}
+                                                                className={`form-control form-control-lg fs-6 ${errors.expiryDate ? "is-invalid" : ""
+                                                                    }`}
+                                                                placeholder="MM/AAAA"
+                                                                maxLength={7} // Limita a MM/AAAA
+                                                            />
+                                                            <label className="form-label" htmlFor="expiryDate">
+                                                                Fecha de expiración
+                                                            </label>
+                                                            {errors.expiryDate && (
+                                                                <small className="text-danger">{errors.expiryDate}</small>
+                                                            )}
+                                                        </div>
 
-                                                            <div className="col-md-12">
-                                                                <div className="form-outline form-white">
-                                                                    <input
-                                                                        type="password"
-                                                                        id="typeCvv"
-                                                                        className="form-control form-control-lg fs-6"
-                                                                        placeholder="&#9679;&#9679;&#9679;"
-                                                                    />
-                                                                    <label
-                                                                        className="form-label"
-                                                                        htmlFor="typeCvv"
-                                                                    >
-                                                                        CVV
-                                                                    </label>
-                                                                </div>
-                                                            </div>
+                                                        {/* CVV */}
+                                                        <div className="form-outline form-white mb-4">
+                                                            <input
+                                                                type="password"
+                                                                id="cvv"
+                                                                value={formData.cvv}
+                                                                onChange={handleChange}
+                                                                className={`form-control form-control-lg fs-6 ${errors.cvv ? "is-invalid" : ""
+                                                                    }`}
+                                                                placeholder="•••"
+                                                                maxLength={4}
+                                                            />
+                                                            <label className="form-label" htmlFor="cvv">
+                                                                CVV
+                                                            </label>
+                                                            {errors.cvv && <small className="text-danger">{errors.cvv}</small>}
                                                         </div>
                                                     </form>
                                                     <hr className="my-4" />
